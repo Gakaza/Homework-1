@@ -34,6 +34,7 @@ bool leapYear(int year) {
 void day31(int day, int month, int year, int &nextDay, int &nextMonth, int &nextYear) {
 	if (day < 31) {
 		nextDay = day++;
+		nextMonth = month;
 	}
 	else {
 		nextDay = 1;
@@ -44,6 +45,7 @@ void day31(int day, int month, int year, int &nextDay, int &nextMonth, int &next
 void day30(int day, int month, int year, int &nextDay, int &nextMonth, int &nextYear) {
 	if (day < 31) {
 		nextDay = day++;
+		nextMonth = month;
 	}
 	else {
 		nextDay = 1;
@@ -54,6 +56,7 @@ void day30(int day, int month, int year, int &nextDay, int &nextMonth, int &next
 void dayDec(int day, int month, int year, int &nextDay, int &nextMonth, int &nextYear) {
 	if (day < 31) {
 		nextDay = day++;
+		nextMonth = month;
 		nextYear = year;
 	}
 	else {
@@ -65,23 +68,30 @@ void dayDec(int day, int month, int year, int &nextDay, int &nextMonth, int &nex
 void dayFeb(int day, int month, int year, int &nextDay, int &nextMonth, int &nextYear, bool isDate) {
 	if (day < 28) {
 		nextDay = day++;
+		nextMonth = month;
+		nextYear = year;
 	}
 	else if (day == 28) {
 		if (leapYear(year)) {
 			nextDay = 29;
+			nextMonth = month;
+			nextYear = year;
 		}
 		else {
 			nextDay = 1;
 			nextMonth = 3;
+			nextYear = year;
 		}
 	}
 	else if (day == 29) {
 		if (leapYear(year)) {
 			nextDay = 1;
 			nextMonth = 3;
+			nextYear = year;
 		}
 		else {
 			cout << "Cannot have Feb. " << day << endl;
+			nextMonth = month;
 			isDate = false;
 		}
 	}
@@ -92,7 +102,6 @@ int main() {
 	bool isDate = true; //does this date exist?
 	cout << "Please enter the date, month, and year (MM DD YY): ";
 	cin >> day >> month >> year;
-
 	//Four cases: day with 31 days, day with 30 days, Decemeber, and Feburary.
 	if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10) {
 		day31(day, month, year, nextDay, nextMonth, nextYear);
@@ -106,8 +115,10 @@ int main() {
 	else if(month == 2) {
 		dayFeb(day, month, year, nextDay, nextMonth, nextYear, isDate);
 	}
-
-	cout << "The next date is: " << nextDay << " " << nextMonth << " " << nextYear << endl;
+	if(isDate){
+		cout << "The next date is: " << nextDay << " " << nextMonth << " " << nextYear << endl;
+	}
 	system("PAUSE");
 	return 0;
 }
+
